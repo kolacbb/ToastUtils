@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical"
+              tools:context=".MainActivity">
+
+    <Button
+            android:id="@+id/new_act"
+            android:text="New Activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/toast_origin"
+            android:text="Origin Toast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/toast_short"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="short toast"/>
+
+    <Button
+            android:id="@+id/toast_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="long toast"/>
+    <Button
+            android:id="@+id/toast_thread"
+            android:text="toast on thread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>
