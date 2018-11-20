@@ -7,6 +7,7 @@ public class OriginToast extends Toast implements IToast {
 
     public OriginToast(Context context) {
         super(context);
+        ToastHandlerHooker.hook(this);
     }
 
     @Override
