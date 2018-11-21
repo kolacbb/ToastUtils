@@ -7,16 +7,13 @@ import android.provider.Settings;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-public class CustomToast implements IToast {
-
-    public static final int DURATION_SHORT = 2000;
-    public static final int DURATION_LONG = 4000;
+public class OverLayToast implements IToast {
 
     private TopActivityHolder mHolder;
     private WindowManager mWindowManager;
     private ToastParam mToastParam = null;
 
-    public CustomToast(TopActivityHolder holder) {
+    public OverLayToast(TopActivityHolder holder) {
         mHolder = holder;
     }
 
@@ -53,7 +50,7 @@ public class CustomToast implements IToast {
             public void run() {
                 cancel();
             }
-        }, mToastParam.duration == Toast.LENGTH_SHORT ? DURATION_SHORT : DURATION_LONG);
+        }, mToastParam.duration == Toast.LENGTH_SHORT ? ToastParam.DURATION_SHORT : ToastParam.DURATION_LONG);
     }
 
     @Override

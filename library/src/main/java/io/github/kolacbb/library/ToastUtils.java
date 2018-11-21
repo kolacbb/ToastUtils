@@ -52,7 +52,7 @@ public class ToastUtils {
         if (SystemUtils.isNotificationEnabled(sApplication)) {
             toast = new OriginToast(sApplication);
         } else if (SystemUtils.isDrawOverlaysEnabled(sApplication)) {
-            toast = new CustomToast(mActivityHolder);
+            toast = new OverLayToast(mActivityHolder);
         } else {
             toast = new SnackToast(mActivityHolder);
         }

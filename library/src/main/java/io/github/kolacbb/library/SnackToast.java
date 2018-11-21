@@ -6,16 +6,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
-
 
 public class SnackToast implements IToast {
 
-    TopActivityHolder mHolder;
+    private TopActivityHolder mHolder;
 
     private ToastParam mToastParam;
     private FrameLayout mRootView;
-    WeakReference<FrameLayout> mReference;
 
     public SnackToast(TopActivityHolder holder) {
         mHolder = holder;
