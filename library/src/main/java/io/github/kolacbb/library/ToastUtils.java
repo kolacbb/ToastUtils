@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static io.github.kolacbb.library.SystemUtils.isNotificationEnabled;
-
 public class ToastUtils {
 
     private static final int MAX_SHORT_LENGTH = 20;
@@ -51,7 +49,7 @@ public class ToastUtils {
 
     public static IToast make(String text) {
         IToast toast;
-        if (isNotificationEnabled(sApplication)) {
+        if (SystemUtils.isNotificationEnabled(sApplication)) {
             toast = new OriginToast(sApplication);
         } else if (SystemUtils.isDrawOverlaysEnabled(sApplication)) {
             toast = new CustomToast(mActivityHolder);
