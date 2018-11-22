@@ -29,12 +29,14 @@ public class OriginToast implements IToast {
     @Override
     public void handleShow() {
         mToast = new Toast(mCtx);
+        ToastHooker.hookHandler(mToast);
         if (mToastParam.view == null) {
             mToastParam.view = ToastUtils.createView(mToastParam.text);
             mToast.setView(mToastParam.view);
         }
         mToast.setGravity(mToastParam.gravity, mToastParam.x, mToastParam.y);
         mToast.setDuration(mToastParam.duration);
+        ToastHooker.hookDuration(mToast);
         mToast.show();
     }
 
