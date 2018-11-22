@@ -7,6 +7,7 @@ public class ToastParam {
     public static final int DURATION_SHORT = 2000;
     public static final int DURATION_LONG = 4000;
 
+    public String text;
     public View view;
     public int duration = 0;
     public int gravity = Gravity.BOTTOM;

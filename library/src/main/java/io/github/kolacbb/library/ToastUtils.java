@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ public class ToastUtils {
     private static int sDefaultY;
     private static Application sApplication;
     private static TopActivityHolder mActivityHolder;
-    private static Handler sHandler = new Handler(Looper.getMainLooper());
+    private static Handler sHandler = new ToastHandler(Looper.getMainLooper());
 
     private ToastUtils() {
     }
@@ -34,17 +35,10 @@ public class ToastUtils {
             return;
         }
 
-
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            make(text).show();
-        } else {
-            sHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    make(text).show();
-                }
-            });
-        }
+        Message msg = sHandler.obtainMessage();
+        msg.what = ToastHandler.SHOW;
+        msg.obj = make(text);
+        sHandler.sendMessage(msg);
     }
 
     public static IToast make(String text) {
@@ -58,7 +52,7 @@ public class ToastUtils {
         }
 
         ToastParam param = new ToastParam();
-        param.view = createView(text);
+        param.text = text;
         param.y = sDefaultY;
         param.duration = TextUtils.isEmpty(text) || text.length() <= MAX_SHORT_LENGTH ?
                 Toast.LENGTH_SHORT : Toast.LENGTH_LONG;
@@ -66,7 +60,7 @@ public class ToastUtils {
         return toast;
     }
 
-    private static View createView(String text) {
+    static View createView(String text) {
         LayoutInflater inflate = (LayoutInflater)
                 sApplication.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TextView tv = (TextView) inflate.inflate(R.layout.view_toast, null);

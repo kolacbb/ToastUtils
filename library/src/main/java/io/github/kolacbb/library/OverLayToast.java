@@ -2,10 +2,7 @@ package io.github.kolacbb.library;
 
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.os.Handler;
-import android.provider.Settings;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 public class OverLayToast implements IToast {
 
@@ -15,6 +12,11 @@ public class OverLayToast implements IToast {
 
     public OverLayToast(TopActivityHolder holder) {
         mHolder = holder;
+    }
+
+    @Override
+    public int getDuration() {
+        return mToastParam.duration;
     }
 
     @Override
@@ -44,19 +46,19 @@ public class OverLayToast implements IToast {
 
 
         mWindowManager = mHolder.getActivity().getWindowManager();
+
+        if (mToastParam.view == null) {
+            mToastParam.view = ToastUtils.createView(mToastParam.text);
+        }
+
         mWindowManager.addView(mToastParam.view, params);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                cancel();
-            }
-        }, mToastParam.duration == Toast.LENGTH_SHORT ? ToastParam.DURATION_SHORT : ToastParam.DURATION_LONG);
     }
 
     @Override
     public void cancel() {
         if (mWindowManager != null) {
             mWindowManager.removeView(mToastParam.view);
+            mWindowManager = null;
         }
     }
 

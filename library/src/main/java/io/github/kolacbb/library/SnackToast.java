@@ -1,21 +1,23 @@
 package io.github.kolacbb.library;
 
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 
 public class SnackToast implements IToast {
 
     private TopActivityHolder mHolder;
-
     private ToastParam mToastParam;
     private FrameLayout mRootView;
 
     public SnackToast(TopActivityHolder holder) {
         mHolder = holder;
+    }
+
+    @Override
+    public int getDuration() {
+        return mToastParam.duration;
     }
 
     @Override
@@ -28,19 +30,17 @@ public class SnackToast implements IToast {
         params.bottomMargin = mToastParam.y;
         params.leftMargin = mToastParam.x;
         params.rightMargin = mToastParam.x;
+        if (mToastParam.view == null) {
+            mToastParam.view = ToastUtils.createView(mToastParam.text);
+        }
         mRootView.addView(mToastParam.view, params);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                cancel();
-            }
-        }, mToastParam.duration == Toast.LENGTH_SHORT ? ToastParam.DURATION_SHORT : ToastParam.DURATION_LONG);
     }
 
     @Override
     public void cancel() {
         if (mRootView != null) {
             mRootView.removeView(mToastParam.view);
+            mRootView = null;
         }
     }
 
