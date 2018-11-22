@@ -2,10 +2,9 @@ package io.github.kolacbb.library;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +17,7 @@ public class ToastUtils {
     private static int sDefaultY;
     private static Application sApplication;
     private static TopActivityHolder mActivityHolder;
-    private static Handler sHandler = new ToastHandler(Looper.getMainLooper());
+    private static ToastHandler sHandler = new ToastHandler(Looper.getMainLooper());
 
     private ToastUtils() {
     }
@@ -30,25 +29,34 @@ public class ToastUtils {
         sDefaultY = SystemUtils.dp2px(application, DEFAULT_Y);
     }
 
-    public static void show(final String text) {
+    public static void show(String text) {
         if (TextUtils.isEmpty(text)) {
             return;
         }
 
-        Message msg = sHandler.obtainMessage();
-        msg.what = ToastHandler.SHOW;
-        msg.obj = make(text);
-        sHandler.sendMessage(msg);
+        make(text).show();
+    }
+
+    public static void showMiddle(String text) {
+        if (TextUtils.isEmpty(text)) {
+            return;
+        }
+
+        IToast toast = make(text);
+        ToastParam param = toast.getParam();
+        param.gravity = Gravity.CENTER;
+        toast.setParam(param);
+        toast.show();
     }
 
     public static IToast make(String text) {
         IToast toast;
         if (SystemUtils.isNotificationEnabled(sApplication)) {
-            toast = new OriginToast(sApplication);
+            toast = new OriginToast(sApplication, sHandler);
         } else if (SystemUtils.isDrawOverlaysEnabled(sApplication)) {
-            toast = new OverLayToast(mActivityHolder);
+            toast = new OverLayToast(mActivityHolder, sHandler);
         } else {
-            toast = new SnackToast(mActivityHolder);
+            toast = new SnackToast(mActivityHolder, sHandler);
         }
 
         ToastParam param = new ToastParam();
@@ -56,7 +64,7 @@ public class ToastUtils {
         param.y = sDefaultY;
         param.duration = TextUtils.isEmpty(text) || text.length() <= MAX_SHORT_LENGTH ?
                 Toast.LENGTH_SHORT : Toast.LENGTH_LONG;
-        toast.apply(param);
+        toast.setParam(param);
         return toast;
     }
 

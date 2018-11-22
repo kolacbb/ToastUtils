@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Field;
 
-class ToastHandlerHooker {
+class ToastHooker {
     private static Field sField_TN;
     private static Field sField_TN_Handler;
     private static Field sField_TN_Duration;
@@ -25,17 +25,25 @@ class ToastHandlerHooker {
         }
     }
 
-    static void hook(Toast toast) {
+    static void hookHandler(Toast toast) {
         try {
             Object tn = sField_TN.get(toast);
             Handler preHandler = (Handler) sField_TN_Handler.get(tn);
             sField_TN_Handler.set(tn, new SafelyHandlerWrapper(preHandler));
-            if (toast.getDuration() == Toast.LENGTH_LONG
-                    && (Build.VERSION.SDK_INT == Build.VERSION_CODES.N || Build.VERSION.SDK_INT == Build.VERSION_CODES.N_MR1)) {
-                sField_TN_Duration.set(tn, Toast.LENGTH_SHORT);
-            }
         } catch (Exception e) {
-            Log.e("ToastUtils", "inject failed");
+            Log.e("ToastUtils", "inject handler failed");
+        }
+    }
+
+    static void hookDuration(Toast toast) {
+        if (toast.getDuration() == Toast.LENGTH_LONG
+                && (Build.VERSION.SDK_INT == Build.VERSION_CODES.N || Build.VERSION.SDK_INT == Build.VERSION_CODES.N_MR1)) {
+            try {
+                Object tn = sField_TN.get(toast);
+                sField_TN_Duration.set(tn, Toast.LENGTH_SHORT);
+            } catch (Exception e) {
+                Log.e("ToastUtils", "inject duration failed");
+            }
         }
     }
 }

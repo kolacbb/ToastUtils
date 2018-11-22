@@ -8,6 +8,10 @@ public interface IToast {
 
     void cancel();
 
-    void apply(ToastParam param);
+    void setParam(ToastParam param);
+
+    ToastParam getParam();
+
+    void handleShow();
 
 }

@@ -2,16 +2,19 @@ package io.github.kolacbb.library;
 
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.os.Message;
 import android.view.WindowManager;
 
 public class OverLayToast implements IToast {
 
+    private ToastHandler mHandler;
     private TopActivityHolder mHolder;
     private WindowManager mWindowManager;
     private ToastParam mToastParam = null;
 
-    public OverLayToast(TopActivityHolder holder) {
+    public OverLayToast(TopActivityHolder holder, ToastHandler handler) {
         mHolder = holder;
+        mHandler = handler;
     }
 
     @Override
@@ -21,6 +24,32 @@ public class OverLayToast implements IToast {
 
     @Override
     public void show() {
+        Message msg = mHandler.obtainMessage();
+        msg.what = ToastHandler.SHOW;
+        msg.obj = this;
+        mHandler.sendMessage(msg);
+    }
+
+    @Override
+    public void cancel() {
+        if (mWindowManager != null) {
+            mWindowManager.removeView(mToastParam.view);
+            mWindowManager = null;
+        }
+    }
+
+    @Override
+    public void setParam(ToastParam param) {
+        mToastParam = param;
+    }
+
+    @Override
+    public ToastParam getParam() {
+        return mToastParam;
+    }
+
+    @Override
+    public void handleShow() {
         if (mToastParam == null) {
             mToastParam = new ToastParam();
         }
@@ -52,18 +81,5 @@ public class OverLayToast implements IToast {
         }
 
         mWindowManager.addView(mToastParam.view, params);
-    }
-
-    @Override
-    public void cancel() {
-        if (mWindowManager != null) {
-            mWindowManager.removeView(mToastParam.view);
-            mWindowManager = null;
-        }
-    }
-
-    @Override
-    public void apply(ToastParam param) {
-        mToastParam = param;
     }
 }

@@ -28,7 +28,7 @@ public class ToastHandler extends Handler {
                     }
                 }
                 IToast toast = (IToast) msg.obj;
-                toast.show();
+                toast.handleShow();
                 mPreToast = new WeakReference<>(toast);
                 if (!(toast instanceof OriginToast)) {
                     Message m = obtainMessage();
