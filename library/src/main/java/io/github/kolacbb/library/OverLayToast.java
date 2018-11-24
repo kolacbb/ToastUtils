@@ -24,10 +24,7 @@ public class OverLayToast implements IToast {
 
     @Override
     public void show() {
-        Message msg = mHandler.obtainMessage();
-        msg.what = ToastHandler.SHOW;
-        msg.obj = this;
-        mHandler.sendMessage(msg);
+        mHandler.sendMessage(Message.obtain(mHandler, ToastHandler.SHOW, this));
     }
 
     @Override
@@ -69,6 +66,7 @@ public class OverLayToast implements IToast {
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
 
+        params.windowAnimations = R.style.ToastAnimation;
         params.gravity = mToastParam.gravity;
         params.x = mToastParam.x;
         params.y = mToastParam.y;

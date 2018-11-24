@@ -47,10 +47,8 @@ public class OriginToast implements IToast {
 
     @Override
     public void show() {
-        Message msg = mHandler.obtainMessage();
-        msg.what = ToastHandler.SHOW;
-        msg.obj = this;
-        mHandler.sendMessage(msg);
+        mHandler.removeCallbacksAndMessages(this);
+        mHandler.sendMessage(Message.obtain(mHandler, ToastHandler.SHOW, this));
     }
 
     @Override
