@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 public abstract class ToastImpl {
@@ -16,7 +17,11 @@ public abstract class ToastImpl {
     private String mText;
     private int mGravity = Gravity.BOTTOM;
     private int mX = 0;
-    private int mY = 0;
+    private int mY;
+
+    public ToastImpl(Context context) {
+        mY = context.getResources().getDimensionPixelSize(R.dimen.toast_y_offset);
+    }
 
     public int getDuration() {
         return mDuration;
@@ -30,8 +35,8 @@ public abstract class ToastImpl {
         return mNextView;
     }
 
-    public void setView(View nextView) {
-        mNextView = nextView;
+    public void setView(View view) {
+        mNextView = view;
     }
 
     public String getText() {
@@ -60,10 +65,10 @@ public abstract class ToastImpl {
         return mY;
     }
 
-    public View createView(Context context, String text) {
+    public View createView(Context context, String text, ViewGroup root) {
         LayoutInflater inflate = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        TextView tv = (TextView) inflate.inflate(R.layout.view_toast, null);
+        TextView tv = (TextView) inflate.inflate(R.layout.view_toast, root, false);
         tv.setText(text);
         return tv;
     }

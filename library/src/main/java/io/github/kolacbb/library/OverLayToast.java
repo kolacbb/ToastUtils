@@ -1,22 +1,26 @@
 package io.github.kolacbb.library;
 
+import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Message;
+import android.view.View;
 import android.view.WindowManager;
 
 public class OverLayToast extends ToastImpl {
 
-    private ToastHandler mHandler;
+    private Context mCtx;
     private WindowManager mWindowManager;
 
-    public OverLayToast(ToastHandler handler) {
-        mHandler = handler;
+    public OverLayToast(Context context) {
+        super(context);
+        mCtx = context;
     }
 
     @Override
     public void show() {
-        mHandler.sendMessage(Message.obtain(mHandler, ToastHandler.SHOW, this));
+        ToastHandler.getInstance().removeCallbacksAndMessages(this);
+        ToastHandler.getInstance().sendMessage(Message.obtain(ToastHandler.getInstance(), ToastHandler.SHOW, this));
     }
 
     @Override
@@ -34,7 +38,7 @@ public class OverLayToast extends ToastImpl {
     public void handleShow() {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                SystemUtils.isDrawOverlaysEnabled(TopActivityHolder.getInstance().getActivity())) {
+                SystemUtils.isDrawOverlaysEnabled(mCtx)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
             } else {
@@ -55,10 +59,12 @@ public class OverLayToast extends ToastImpl {
 
         mWindowManager = TopActivityHolder.getInstance().getActivity().getWindowManager();
 
-        if (getView() == null) {
-            setView(createView(TopActivityHolder.getInstance().getActivity(), getText()));
+        View view = getView();
+        if (view == null) {
+            view = createView(mCtx, getText(), null);
+            setView(view);
         }
 
-        mWindowManager.addView(getView(), params);
+        mWindowManager.addView(view, params);
     }
 }

@@ -13,8 +13,18 @@ public class ToastHandler extends Handler {
     public static final int CANCEL = 1;
     private WeakReference<ToastImpl> mPreToast;
 
-    public ToastHandler(Looper looper) {
+    private static ToastHandler sInstance;
+    private ToastHandler(Looper looper) {
         super(looper);
+    }
+
+    public static ToastHandler getInstance() {
+        if (sInstance == null) {
+            synchronized (ToastHandler.class) {
+                sInstance = new ToastHandler(Looper.getMainLooper());
+            }
+        }
+        return sInstance;
     }
 
     @Override
