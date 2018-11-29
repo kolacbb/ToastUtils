@@ -8,6 +8,23 @@ public class TopActivityHolder implements Application.ActivityLifecycleCallbacks
 
     private Activity mActivity;
 
+    private static TopActivityHolder sInstance;
+
+    private TopActivityHolder() {
+
+    }
+
+    public static TopActivityHolder getInstance() {
+        if (sInstance == null) {
+            synchronized (TopActivityHolder.class) {
+                if (sInstance == null) {
+                    sInstance = new TopActivityHolder();
+                }
+            }
+        }
+        return sInstance;
+    }
+
     public Activity getActivity() {
         return mActivity;
     }

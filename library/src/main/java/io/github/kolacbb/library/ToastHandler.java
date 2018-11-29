@@ -11,7 +11,7 @@ public class ToastHandler extends Handler {
 
     public static final int SHOW = 0;
     public static final int CANCEL = 1;
-    private WeakReference<IToast> mPreToast;
+    private WeakReference<ToastImpl> mPreToast;
 
     public ToastHandler(Looper looper) {
         super(looper);
@@ -22,12 +22,12 @@ public class ToastHandler extends Handler {
         switch (msg.what) {
             case SHOW: {
                 if (mPreToast != null) {
-                    IToast toast = mPreToast.get();
+                    ToastImpl toast = mPreToast.get();
                     if (toast != null) {
                         toast.cancel();
                     }
                 }
-                IToast toast = (IToast) msg.obj;
+                ToastImpl toast = (ToastImpl) msg.obj;
                 toast.handleShow();
                 mPreToast = new WeakReference<>(toast);
                 if (!(toast instanceof OriginToast)) {
@@ -35,13 +35,13 @@ public class ToastHandler extends Handler {
                     m.what = CANCEL;
                     m.obj = toast;
                     sendMessageDelayed(m, toast.getDuration() == Toast.LENGTH_LONG ?
-                            ToastParam.DURATION_LONG : ToastParam.DURATION_SHORT);
+                            ToastImpl.DURATION_LONG : ToastImpl.DURATION_SHORT);
                 }
 
                 break;
             }
             case CANCEL: {
-                IToast toast = (IToast) msg.obj;
+                ToastImpl toast = (ToastImpl) msg.obj;
                 toast.cancel();
                 break;
             }

@@ -1,4 +1,4 @@
-# ToastUtils
+# ToastUtils[Beta]
 A ToastUtils with strong compatible
 
 
@@ -7,3 +7,5 @@ A ToastUtils with strong compatible
 * Fix Toast can't shown on up Android 7.0 device when app notification permission was denied.
 * Fix BadTokenException.
 * Fix long duration toast not work on Android N.
+
+

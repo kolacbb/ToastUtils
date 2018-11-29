@@ -1,39 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical"
-              tools:context=".MainActivity">
+<GridLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:columnCount="5"
+        android:orientation="horizontal"
+        tools:context=".MainActivity">
 
     <Button
             android:id="@+id/new_act"
             android:text="New Activity"
+            android:layout_columnWeight="1"
+            android:layout_columnSpan="5"
+            android:onClick="onViewClicked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="utils"/>
+
     <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/toast_origin"
-            android:text="Origin Toast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:onClick="onViewClicked"
+            android:text="Origin"/>
 
     <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/toast_short"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="short toast"/>
+            android:onClick="onViewClicked"
+            android:text="short"/>
 
     <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/toast_long"
+            android:onClick="onViewClicked"
+            android:text="long"/>
+
+    <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="long toast"/>
-    <Button
             android:id="@+id/toast_thread"
-            android:text="toast on thread"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:onClick="onViewClicked"
+            android:text="thread"/>
 
-</LinearLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="middle"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_origin_middle"
+            android:onClick="onViewClicked"
+            android:text="Origin"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_short_middle"
+            android:onClick="onViewClicked"
+            android:text="short"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_long_middle"
+            android:onClick="onViewClicked"
+            android:text="long"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_thread_middle"
+            android:onClick="onViewClicked"
+            android:text="thread"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="origin"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_ori_custom"
+            android:onClick="onViewClicked"
+            android:text="custom"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_short_ori"
+            android:onClick="onViewClicked"
+            android:text="short"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_long_ori"
+            android:onClick="onViewClicked"
+            android:text="long"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_thread_ori"
+            android:onClick="onViewClicked"
+            android:text="thread"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="overlay"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_overlay_custom"
+            android:onClick="onViewClicked"
+            android:text="custom"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_short_overlay"
+            android:onClick="onViewClicked"
+            android:text="short"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_long_overlay"
+            android:onClick="onViewClicked"
+            android:text="long"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_thread_overlay"
+            android:onClick="onViewClicked"
+            android:text="thread"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="snack"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_snack_custom"
+            android:onClick="onViewClicked"
+            android:text="custom"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_short_snack"
+            android:onClick="onViewClicked"
+            android:text="short"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_long_snack"
+            android:onClick="onViewClicked"
+            android:text="long"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toast_thread_snack"
+            android:onClick="onViewClicked"
+            android:text="thread"/>
+
+</GridLayout>

@@ -5,21 +5,13 @@ import android.os.Build;
 import android.os.Message;
 import android.view.WindowManager;
 
-public class OverLayToast implements IToast {
+public class OverLayToast extends ToastImpl {
 
     private ToastHandler mHandler;
-    private TopActivityHolder mHolder;
     private WindowManager mWindowManager;
-    private ToastParam mToastParam = null;
 
-    public OverLayToast(TopActivityHolder holder, ToastHandler handler) {
-        mHolder = holder;
+    public OverLayToast(ToastHandler handler) {
         mHandler = handler;
-    }
-
-    @Override
-    public int getDuration() {
-        return mToastParam.duration;
     }
 
     @Override
@@ -30,29 +22,19 @@ public class OverLayToast implements IToast {
     @Override
     public void cancel() {
         if (mWindowManager != null) {
-            mWindowManager.removeView(mToastParam.view);
-            mWindowManager = null;
+            try {
+                mWindowManager.removeView(getView());
+                mWindowManager = null;
+            } catch (Exception ignored) {
+            }
         }
-    }
-
-    @Override
-    public void setParam(ToastParam param) {
-        mToastParam = param;
-    }
-
-    @Override
-    public ToastParam getParam() {
-        return mToastParam;
     }
 
     @Override
     public void handleShow() {
-        if (mToastParam == null) {
-            mToastParam = new ToastParam();
-        }
-
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                SystemUtils.isDrawOverlaysEnabled(TopActivityHolder.getInstance().getActivity())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
             } else {
@@ -67,17 +49,16 @@ public class OverLayToast implements IToast {
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
 
         params.windowAnimations = R.style.ToastAnimation;
-        params.gravity = mToastParam.gravity;
-        params.x = mToastParam.x;
-        params.y = mToastParam.y;
+        params.gravity = getGravity();
+        params.x = getXOffset();
+        params.y = getYOffset();
 
+        mWindowManager = TopActivityHolder.getInstance().getActivity().getWindowManager();
 
-        mWindowManager = mHolder.getActivity().getWindowManager();
-
-        if (mToastParam.view == null) {
-            mToastParam.view = ToastUtils.createView(mToastParam.text);
+        if (getView() == null) {
+            setView(createView(TopActivityHolder.getInstance().getActivity(), getText()));
         }
 
-        mWindowManager.addView(mToastParam.view, params);
+        mWindowManager.addView(getView(), params);
     }
 }

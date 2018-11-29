@@ -1,13 +1,9 @@
 package io.github.kolacbb.library;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class ToastUtils {
@@ -16,7 +12,6 @@ public class ToastUtils {
     private static final int DEFAULT_Y = 24;
     private static int sDefaultY;
     private static Application sApplication;
-    private static TopActivityHolder mActivityHolder;
     private static ToastHandler sHandler = new ToastHandler(Looper.getMainLooper());
 
     private ToastUtils() {
@@ -24,8 +19,7 @@ public class ToastUtils {
 
     public static void init(Application application) {
         sApplication = application;
-        mActivityHolder = new TopActivityHolder();
-        sApplication.registerActivityLifecycleCallbacks(mActivityHolder);
+        sApplication.registerActivityLifecycleCallbacks(TopActivityHolder.getInstance());
         sDefaultY = SystemUtils.dp2px(application, DEFAULT_Y);
     }
 
@@ -42,38 +36,26 @@ public class ToastUtils {
             return;
         }
 
-        IToast toast = make(text);
-        ToastParam param = toast.getParam();
-        param.gravity = Gravity.CENTER;
-        toast.setParam(param);
+        ToastImpl toast = make(text);
+        toast.setGravity(Gravity.CENTER, sDefaultY, sDefaultY);
         toast.show();
     }
 
-    public static IToast make(String text) {
-        IToast toast;
+    public static ToastImpl make(String text) {
+        ToastImpl toast;
         if (SystemUtils.isNotificationEnabled(sApplication)) {
             toast = new OriginToast(sApplication, sHandler);
         } else if (SystemUtils.isDrawOverlaysEnabled(sApplication)) {
-            toast = new OverLayToast(mActivityHolder, sHandler);
+            toast = new OverLayToast(sHandler);
         } else {
-            toast = new SnackToast(mActivityHolder, sHandler);
+            toast = new SnackToast(sHandler);
         }
 
-        ToastParam param = new ToastParam();
-        param.text = text;
-        param.y = sDefaultY;
-        param.duration = TextUtils.isEmpty(text) || text.length() <= MAX_SHORT_LENGTH ?
-                Toast.LENGTH_SHORT : Toast.LENGTH_LONG;
-        toast.setParam(param);
+        toast.setText(text);
+        toast.setGravity(Gravity.BOTTOM, sDefaultY, sDefaultY);
+        toast.setDuration(TextUtils.isEmpty(text) || text.length() <= MAX_SHORT_LENGTH ?
+                Toast.LENGTH_SHORT : Toast.LENGTH_LONG);
         return toast;
-    }
-
-    static View createView(String text) {
-        LayoutInflater inflate = (LayoutInflater)
-                sApplication.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        TextView tv = (TextView) inflate.inflate(R.layout.view_toast, null);
-        tv.setText(text);
-        return tv;
     }
 
 

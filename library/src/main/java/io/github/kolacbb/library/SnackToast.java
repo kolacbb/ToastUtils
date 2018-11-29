@@ -7,22 +7,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
-
-public class SnackToast implements IToast, Animation.AnimationListener {
+public class SnackToast extends ToastImpl implements Animation.AnimationListener {
 
     private ToastHandler mHandler;
-    private TopActivityHolder mHolder;
-    private ToastParam mToastParam;
     private FrameLayout mRootView;
 
-    public SnackToast(TopActivityHolder holder, ToastHandler handler) {
-        mHolder = holder;
+    public SnackToast(ToastHandler handler) {
         mHandler = handler;
-    }
-
-    @Override
-    public int getDuration() {
-        return mToastParam.duration;
     }
 
     @Override
@@ -35,36 +26,26 @@ public class SnackToast implements IToast, Animation.AnimationListener {
         if (mRootView != null) {
             Animation alphaAnimation = AnimationUtils.loadAnimation(mRootView.getContext(), R.anim.toast_exit);
             alphaAnimation.setAnimationListener(this);
-            mToastParam.view.startAnimation(alphaAnimation);
+            getView().startAnimation(alphaAnimation);
         }
-    }
-
-    @Override
-    public void setParam(ToastParam param) {
-        mToastParam = param;
-    }
-
-    @Override
-    public ToastParam getParam() {
-        return mToastParam;
     }
 
     @Override
     public void handleShow() {
-        mRootView = mHolder.getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+        mRootView = TopActivityHolder.getInstance().getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = mToastParam.gravity | Gravity.CENTER;
-        params.topMargin = mToastParam.y;
-        params.bottomMargin = mToastParam.y;
-        params.leftMargin = mToastParam.x;
-        params.rightMargin = mToastParam.x;
-        if (mToastParam.view == null) {
-            mToastParam.view = ToastUtils.createView(mToastParam.text);
+        params.gravity = getGravity() | Gravity.CENTER;
+        params.topMargin = getYOffset();
+        params.bottomMargin = getYOffset();
+        params.leftMargin = getXOffset();
+        params.rightMargin = getXOffset();
+        if (getView() == null) {
+            setView(createView(mRootView.getContext(), getText()));
         }
-        mRootView.addView(mToastParam.view, params);
+        mRootView.addView(getView(), params);
         Animation alphaAnimation = AnimationUtils.loadAnimation(mRootView.getContext(), R.anim.toast_enter);
-        mToastParam.view.startAnimation(alphaAnimation);
+        getView().startAnimation(alphaAnimation);
     }
 
     @Override
@@ -74,7 +55,7 @@ public class SnackToast implements IToast, Animation.AnimationListener {
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        mRootView.removeView(mToastParam.view);
+        mRootView.removeView(getView());
         mRootView = null;
     }
 
