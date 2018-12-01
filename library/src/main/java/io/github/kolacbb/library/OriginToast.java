@@ -2,6 +2,7 @@ package io.github.kolacbb.library;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.os.Message;
 import android.view.View;
 import android.widget.Toast;
@@ -9,7 +10,10 @@ import android.widget.Toast;
 public class OriginToast extends ToastImpl {
 
     private Context mCtx;
-    private Toast mToast;
+    /*
+     * Use single Toast instance on lower Android P.
+     */
+    private static Toast mToast;
 
     public OriginToast(Context context) {
         super(context);
@@ -19,8 +23,10 @@ public class OriginToast extends ToastImpl {
     @SuppressLint("WrongConstant")
     @Override
     public void handleShow() {
-        mToast = new Toast(mCtx);
-        ToastHooker.hookHandler(mToast);
+        if (mToast == null) {
+            mToast = new Toast(mCtx);
+            ToastHooker.hookHandler(mToast);
+        }
         View view = getView();
         if (view == null) {
             view = createView(mCtx, getText(), null);
@@ -41,7 +47,7 @@ public class OriginToast extends ToastImpl {
 
     @Override
     public void cancel() {
-        if (mToast != null) {
+        if (mToast != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             mToast.cancel();
             mToast = null;
         }

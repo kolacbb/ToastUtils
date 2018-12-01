@@ -32,9 +32,9 @@ public class ToastHandler extends Handler {
         switch (msg.what) {
             case SHOW: {
                 if (mPreToast != null) {
-                    ToastImpl toast = mPreToast.get();
-                    if (toast != null) {
-                        toast.cancel();
+                    ToastImpl prv = mPreToast.get();
+                    if (prv != null) {
+                        prv.cancel();
                     }
                 }
                 ToastImpl toast = (ToastImpl) msg.obj;

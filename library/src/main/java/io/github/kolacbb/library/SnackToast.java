@@ -66,8 +66,13 @@ public class SnackToast extends ToastImpl implements Animation.AnimationListener
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        mRootView.removeView(getView());
-        mRootView = null;
+        ToastHandler.getInstance().post(new Runnable() {
+            @Override
+            public void run() {
+                mRootView.removeView(getView());
+                mRootView = null;
+            }
+        });
     }
 
     @Override
