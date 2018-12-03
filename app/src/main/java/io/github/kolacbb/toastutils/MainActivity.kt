@@ -59,19 +59,19 @@ class MainActivity : AppCompatActivity() {
 
             /* origin toast */
             R.id.toast_ori_custom -> {
-                val toast = OriginToast(baseContext)
+                val toast = OriginToast(application)
                 val view = TextView(this)
                 view.text = "Short Custom Toast"
                 toast.view = view
                 toast.show()
             }
             R.id.toast_short_ori -> {
-                val toast = OriginToast(baseContext)
+                val toast = OriginToast(application)
                 toast.text = "Short Toast"
                 toast.show()
             }
             R.id.toast_long_ori -> {
-                val toast = OriginToast(baseContext)
+                val toast = OriginToast(application)
                 toast.text = "This is a long toast, that is why it will be show long time."
                 toast.setGravity(Gravity.CENTER, 0, 0)
                 toast.duration = Toast.LENGTH_LONG
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             R.id.toast_thread_ori -> {
                 Thread(Runnable {
                     run {
-                        val toast = OriginToast(baseContext)
+                        val toast = OriginToast(application)
                         toast.text = "Snack Thread"
                         toast.setGravity(Gravity.CENTER, 0, 0)
                         toast.show()

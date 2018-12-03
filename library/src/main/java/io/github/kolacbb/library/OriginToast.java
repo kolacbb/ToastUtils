@@ -1,6 +1,7 @@
 package io.github.kolacbb.library;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.Message;
@@ -15,7 +16,7 @@ public class OriginToast extends ToastImpl {
      */
     private static Toast mToast;
 
-    public OriginToast(Context context) {
+    public OriginToast(Application context) {
         super(context);
         mCtx = context;
     }
