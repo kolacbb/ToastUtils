@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
             /*middle*/
             R.id.toast_origin -> {
-                Toast.makeText(this, "Short Toast.", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Short Toast", Toast.LENGTH_SHORT)
                     .show()
             }
             R.id.toast_short -> {

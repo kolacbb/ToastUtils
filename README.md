@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/kolacbb/ToastUtils.svg)](https://jitpack.io/#kolacbb/ToastUtils)
+[![](https://jitpack.io/v/kolacbb/ToastUtils.svg)](https://jitpack.io/#kolacbb/ToastUtils) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
 
 # ToastUtils
 A ToastUtils with strong compatible
