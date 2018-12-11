@@ -1,8 +1,7 @@
-package io.github.kolacbb.toastutils
+package io.github.kolacbb.toaster
 
 import android.app.Application
 import com.squareup.leakcanary.LeakCanary
-import io.github.kolacbb.library.ToastUtils
 
 class App : Application() {
     override fun onCreate() {

@@ -1,4 +1,4 @@
-package io.github.kolacbb.toastutils
+package io.github.kolacbb.toaster
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

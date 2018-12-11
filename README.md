@@ -1,7 +1,7 @@
-[![](https://jitpack.io/v/kolacbb/ToastUtils.svg)](https://jitpack.io/#kolacbb/ToastUtils)
+[![](https://jitpack.io/v/kolacbb/ToastUtils.svg)](https://jitpack.io/#kolacbb/ToastUtils) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
 
-# ToastUtils
-A ToastUtils with strong compatible
+# Toaster
+A Toast with strong compatible
 
 
 * Same style on any device version.
@@ -28,14 +28,14 @@ Step 2. Add the dependency
 ```gradle
 dependencies {
 	...
-	implementation 'com.github.kolacbb:ToastUtils:1.0.0'
+	implementation 'com.github.kolacbb:Toaster:1.0.1'
 }
 ```
 
 # Usage
 
 ```java
-ToastUtils.show("Hello");
+Toaster.show("Hello");
 ```
 
 
