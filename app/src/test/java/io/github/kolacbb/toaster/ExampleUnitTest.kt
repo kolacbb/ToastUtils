@@ -1,4 +1,4 @@
-package io.github.kolacbb.toastutils
+package io.github.kolacbb.toaster
 
 import org.junit.Test
 

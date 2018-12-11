@@ -4,7 +4,6 @@
           android:layout_width="wrap_content"
           android:background="@drawable/toast_background"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
           android:paddingLeft="24dp"
           android:paddingRight="24dp"
           android:paddingTop="15dp"
@@ -15,7 +14,6 @@
           android:layout_marginBottom="15dp"
           android:layout_gravity="center_horizontal"
           android:fontFamily="sans-serif"
-          android:shadowRadius="2.75"
           android:textSize="14sp"
-          android:shadowColor="#E6EEEEEE"
-          android:textColor="#de000000"/>
+          android:shadowColor="#E6666666"
+          android:textColor="#DEFEFEFE"/>

@@ -31,7 +31,7 @@ class ToastHooker {
             Handler preHandler = (Handler) sField_TN_Handler.get(tn);
             sField_TN_Handler.set(tn, new SafelyHandlerWrapper(preHandler));
         } catch (Exception e) {
-            Log.e("ToastUtils", "inject handler failed");
+            Log.e("Toaster", "inject handler failed");
         }
     }
 
@@ -42,7 +42,7 @@ class ToastHooker {
                 Object tn = sField_TN.get(toast);
                 sField_TN_Duration.set(tn, Toast.LENGTH_SHORT);
             } catch (Exception e) {
-                Log.e("ToastUtils", "inject duration failed");
+                Log.e("Toaster", "inject duration failed");
             }
         }
     }

@@ -14,7 +14,7 @@ public abstract class ToastImpl {
 
     private int mDuration;
     private View mNextView;
-    private String mText;
+    private CharSequence mText;
     private int mGravity = Gravity.BOTTOM;
     private int mX = 0;
     private int mY;
@@ -39,11 +39,11 @@ public abstract class ToastImpl {
         mNextView = view;
     }
 
-    public String getText() {
+    public CharSequence getText() {
         return mText;
     }
 
-    public void setText(String text) {
+    public void setText(CharSequence text) {
         mText = text;
     }
 
@@ -65,7 +65,7 @@ public abstract class ToastImpl {
         return mY;
     }
 
-    public View createView(Context context, String text, ViewGroup root) {
+    public static View createView(Context context, CharSequence text, ViewGroup root) {
         LayoutInflater inflate = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TextView tv = (TextView) inflate.inflate(R.layout.view_toast, root, false);
@@ -73,9 +73,9 @@ public abstract class ToastImpl {
         return tv;
     }
 
-    abstract void show();
+    public abstract void show();
 
-    abstract void handleShow();
+    public abstract void handleShow();
 
-    abstract void cancel();
+    public abstract void cancel();
 }

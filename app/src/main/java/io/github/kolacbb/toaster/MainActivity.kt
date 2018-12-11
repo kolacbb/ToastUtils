@@ -1,4 +1,4 @@
-package io.github.kolacbb.toastutils
+package io.github.kolacbb.toaster
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -7,7 +7,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import io.github.kolacbb.library.*
+import io.github.kolacbb.library.OriginToast
+import io.github.kolacbb.library.OverLayToast
+import io.github.kolacbb.library.SnackToast
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,10 +33,10 @@ class MainActivity : AppCompatActivity() {
                 ToastUtils.show("Short Toast")
             }
             R.id.toast_long -> {
-                ToastUtils.show("This is a long toast, that is why it will be show long time.")
+                ToastUtils.showMiddle("This is a long toast, that is why it will be show long time.")
             }
             R.id.toast_thread -> {
-                Thread(Runnable { run { ToastUtils.show("Thread.") } }).start()
+                Thread(Runnable { run { ToastUtils.showMiddle("Thread.") } }).start()
             }
 
             /*middle*/
@@ -48,13 +50,13 @@ class MainActivity : AppCompatActivity() {
                 toast.show()
             }
             R.id.toast_short_middle -> {
-                ToastUtils.showMiddle("Short Toast")
+//                Toaster.showMiddle("Short Toast")
             }
             R.id.toast_long_middle -> {
-                ToastUtils.showMiddle("This is a long toast, that is why it will be show long time.")
+//                Toaster.showMiddle("This is a long toast, that is why it will be show long time.")
             }
             R.id.toast_thread_middle -> {
-                Thread(Runnable { run { ToastUtils.showMiddle("Thread.") } }).start()
+//                Thread(Runnable { run { Toaster.showMiddle("Thread.") } }).start()
             }
 
             /* origin toast */
