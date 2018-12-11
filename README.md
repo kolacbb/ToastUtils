@@ -28,7 +28,7 @@ Step 2. Add the dependency
 ```gradle
 dependencies {
 	...
-	implementation 'com.github.kolacbb:ToastUtils:1.0.0'
+	implementation 'com.github.kolacbb:Toaster:1.0.1'
 }
 ```
 
