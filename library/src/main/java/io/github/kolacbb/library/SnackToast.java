@@ -9,7 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
-public class SnackToast extends ToastImpl implements Animation.AnimationListener {
+public class SnackToast extends ToastImpl {
 
     private Context mCtx;
     private FrameLayout mRootView;
@@ -29,8 +29,9 @@ public class SnackToast extends ToastImpl implements Animation.AnimationListener
     public void cancel() {
         if (mRootView != null) {
             Animation alphaAnimation = AnimationUtils.loadAnimation(mRootView.getContext(), R.anim.toast_exit);
-            alphaAnimation.setAnimationListener(this);
             getView().startAnimation(alphaAnimation);
+            mRootView.removeView(getView());
+            mRootView = null;
         }
     }
 
@@ -57,26 +58,5 @@ public class SnackToast extends ToastImpl implements Animation.AnimationListener
         mRootView.addView(view, params);
         Animation alphaAnimation = AnimationUtils.loadAnimation(mCtx, R.anim.toast_enter);
         getView().startAnimation(alphaAnimation);
-    }
-
-    @Override
-    public void onAnimationStart(Animation animation) {
-
-    }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        ToastHandler.getInstance().post(new Runnable() {
-            @Override
-            public void run() {
-                mRootView.removeView(getView());
-                mRootView = null;
-            }
-        });
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-
     }
 }
