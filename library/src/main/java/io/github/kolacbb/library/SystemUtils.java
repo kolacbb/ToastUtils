@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.TypedValue;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -41,6 +42,20 @@ public class SystemUtils {
             return Settings.canDrawOverlays(context);
         }
         return true;
+    }
+
+    private static int sActionBarHeight = -1;
+
+    private static int getActionBarHeight(Context context) {
+        int height = 0;
+        if (sActionBarHeight == -1) {
+            TypedValue typedValue = new TypedValue();
+            height = (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true))
+                    ? TypedValue.complexToDimensionPixelSize(
+                    typedValue.data, context.getResources().getDisplayMetrics())
+                    : 0;
+        }
+        return height;
     }
 
 }

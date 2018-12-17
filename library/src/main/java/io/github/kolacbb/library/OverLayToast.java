@@ -1,9 +1,11 @@
 package io.github.kolacbb.library;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -36,6 +38,12 @@ public class OverLayToast extends ToastImpl {
 
     @Override
     public void handleShow() {
+        Activity activity = TopActivityHolder.getInstance().getActivity();
+        if (activity == null) {
+            Log.e("Toaster", "Can't find activity show toast.");
+            return;
+        }
+        mWindowManager = activity.getWindowManager();
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 SystemUtils.isDrawOverlaysEnabled(mCtx)) {
@@ -56,8 +64,6 @@ public class OverLayToast extends ToastImpl {
         params.gravity = getGravity();
         params.x = getXOffset();
         params.y = getYOffset();
-
-        mWindowManager = TopActivityHolder.getInstance().getActivity().getWindowManager();
 
         View view = getView();
         if (view == null) {

@@ -26,8 +26,7 @@ class MainActivity : AppCompatActivity() {
 
             /*middle*/
             R.id.toast_origin -> {
-                Toast.makeText(this, "Short Toast", Toast.LENGTH_SHORT)
-                    .show()
+                ToastUtils.showBanner("Short Toast")
             }
             R.id.toast_short -> {
                 ToastUtils.show("Short Toast")

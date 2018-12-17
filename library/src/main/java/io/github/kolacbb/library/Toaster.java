@@ -73,10 +73,8 @@ public class Toaster {
         ToastImpl toast;
         if (SystemUtils.isNotificationEnabled(sApplication)) {
             toast = new OriginToast(sApplication);
-        } else if (SystemUtils.isDrawOverlaysEnabled(sApplication)) {
-            toast = new OverLayToast(sApplication);
         } else {
-            toast = new SnackToast(sApplication);
+            toast = new OverLayToast(sApplication);
         }
         return toast;
     }

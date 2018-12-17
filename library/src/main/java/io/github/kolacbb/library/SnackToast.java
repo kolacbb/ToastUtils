@@ -1,7 +1,9 @@
 package io.github.kolacbb.library;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +39,13 @@ public class SnackToast extends ToastImpl {
 
     @Override
     public void handleShow() {
-        mRootView = TopActivityHolder.getInstance().getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+        Activity activity = TopActivityHolder.getInstance().getActivity();
+        if (activity == null) {
+            Log.e("Toaster", "Can't find activity show toast.");
+            return;
+        }
+
+        mRootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
 
         View view = getView();
         if (view == null) {
