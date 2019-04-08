@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
 
             /*middle*/
             R.id.toast_origin -> {
-                Toaster.show("short")
+//                Toaster.show("short")
+                ToastUtils.showBanner("Banner.")
             }
             R.id.toast_short -> {
                 Toaster.show("Short Toast")

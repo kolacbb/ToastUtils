@@ -28,7 +28,7 @@ Step 2. Add the dependency
 ```gradle
 dependencies {
 	...
-	implementation 'com.github.kolacbb:Toaster:1.0.1'
+	implementation 'com.github.kolacbb:Toaster:1.0.3'
 }
 ```
 
@@ -36,6 +36,9 @@ dependencies {
 
 ```java
 Toaster.show("Hello");
+
+
+
 ```
 
 

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import io.github.kolacbb.library.ToastImpl;
 import io.github.kolacbb.library.Toaster;
 
 public class ToastUtils {
@@ -29,21 +28,20 @@ public class ToastUtils {
     }
 
     public static void showBanner(CharSequence text) {
-        ToastImpl toast = new Toaster.Builder()
-                .setGravity(Gravity.TOP)
-                .setX(0)
-                .setY(getActionBarHeight())
-                .build();
-        toast.setDuration(getDuration(text));
         View view = LayoutInflater.from(sApplication).inflate(R.layout.view_toast_banner, null);
         TextView tv = view.findViewById(R.id.message);
         ViewGroup.LayoutParams params = tv.getLayoutParams();
         params.width = getScreenWidth();
         tv.setLayoutParams(params);
         tv.setText(text);
-//        toast.setGravity(Gravity.TOP, 0, getActionBarHeight());
-        toast.setView(view);
-        toast.show();
+
+        new Toaster.Builder()
+                .setView(view)
+                .setGravity(Gravity.TOP)
+                .setX(0)
+                .setY(getActionBarHeight())
+                .setDuration(getDuration(text))
+                .build().show();
     }
 
     private static int getDuration(CharSequence text) {
