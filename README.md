@@ -37,8 +37,13 @@ dependencies {
 ```java
 Toaster.show("Hello");
 
-
-
+new Toaster.Builder()
+    .setText(text)
+    .setTextColor(Color.parseColor("#DEFEFEFE"))
+    .setBackgroundColor(Color.parseColor("#E6666666"))
+    .setDuration(getDuration(text))
+    .setGravity(Gravity.CENTER)
+    .show();
 ```
 
 

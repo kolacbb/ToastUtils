@@ -159,6 +159,7 @@ public class Toaster {
                 } else {
                     tv.setBackgroundDrawable(drawable);
                 }
+                view = tv;
             }
 
             toast.setView(view);
