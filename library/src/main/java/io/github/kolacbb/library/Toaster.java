@@ -6,20 +6,12 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class Toaster {
-
-    public static int sBackgroundColor = Color.parseColor("#E6EEEEEE");
-    public static int sTextSize = 14;
-    public static int sTextColor = Color.parseColor("#DE000000");
-    public static Typeface sTypeFace = Typeface.create("sans-serif", Typeface.NORMAL);
-    public static int sGravity = Gravity.BOTTOM;
-    public static int sDuration = Toast.LENGTH_SHORT;
-
     private static Application sApplication;
 
     private Toaster() {
@@ -31,78 +23,44 @@ public class Toaster {
     }
 
     public static void show(CharSequence text) {
-        Toaster.show(new Config().setText(text));
+        new Builder().setText(text).setDuration(getDuration(text)).show();
     }
 
-    public static void show(Config config) {
-        if (TextUtils.isEmpty(config.getText())) {
-            return;
-        }
-
-        ToastImpl toast;
-        if (SystemUtils.isNotificationEnabled(sApplication)) {
-            toast = new OriginToast(sApplication);
-        } else if (SystemUtils.isDrawOverlaysEnabled(sApplication)) {
-            toast = new OverLayToast(sApplication);
-        } else {
-            toast = new SnackToast(sApplication);
-        }
-
-        TextView view = (TextView) ToastImpl.createView(sApplication, config.getText(), null);
-
-        Drawable drawable = view.getBackground();
-        drawable.setColorFilter(config.getBackgroundColor(), PorterDuff.Mode.SRC_IN);
-        view.setText(config.getText());
-        view.setTextColor(config.getTextColor());
-        view.setTextSize(config.getTextSize());
-        view.setTypeface(config.getTypeFace());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(drawable);
-        } else {
-            view.setBackgroundDrawable(drawable);
-        }
-
-
-        toast.setView(view);
-        toast.setDuration(config.getDuration());
-        toast.show();
+    public static void showMiddle(CharSequence text) {
+        new Builder().setText(text).setDuration(getDuration(text)).setGravity(Gravity.CENTER).show();
     }
 
-    public static ToastImpl make() {
-        ToastImpl toast;
-        if (SystemUtils.isNotificationEnabled(sApplication)) {
-            toast = new OriginToast(sApplication);
-        } else {
-            toast = new OverLayToast(sApplication);
-        }
-        return toast;
+    private static int getDuration(CharSequence text) {
+        return text != null && text.length() < 20 ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG;
     }
 
-
-    public static class Config {
-        private int mBackgroundColor = sBackgroundColor;
-        private int mTextSize = sTextSize;
-        private int mTextColor = sTextColor;
-        private int mGravity = sGravity;
-        private int mDuration = sDuration;
-        private Typeface mTypeFace = sTypeFace;
-
+    public static class Builder {
         private CharSequence mText;
+        private int mTextSize = 14;
+        private int mTextColor = Color.parseColor("#DE000000");
+        private Typeface mTypeFace = Typeface.create("sans-serif", Typeface.NORMAL);
+        private int mBackgroundColor = Color.parseColor("#E6EEEEEE");
+        private View mView = null;
+        private int mGravity = Gravity.BOTTOM;
+        private int mDuration = Toast.LENGTH_SHORT;
+        private int mX = 0;
+        private int mY = sApplication.getResources().getDimensionPixelSize(R.dimen.toast_y_offset);
 
-        public int getBackgroundColor() {
-            return mBackgroundColor;
+
+        public CharSequence getText() {
+            return mText;
         }
 
-        public void setBackgroundColor(int backgroundColor) {
-            mBackgroundColor = backgroundColor;
+        public Builder setText(CharSequence text) {
+            mText = text;
+            return this;
         }
 
         public int getTextSize() {
             return mTextSize;
         }
 
-        public Config setTextSize(int textSize) {
+        public Builder setTextSize(int textSize) {
             mTextSize = textSize;
             return this;
         }
@@ -111,8 +69,35 @@ public class Toaster {
             return mTextColor;
         }
 
-        public Config setTextColor(int textColor) {
+        public Builder setTextColor(int textColor) {
             mTextColor = textColor;
+            return this;
+        }
+
+        public Typeface getTypeFace() {
+            return mTypeFace;
+        }
+
+        public Builder setTypeFace(Typeface typeFace) {
+            mTypeFace = typeFace;
+            return this;
+        }
+
+        public int getBackgroundColor() {
+            return mBackgroundColor;
+        }
+
+        public Builder setBackgroundColor(int backgroundColor) {
+            mBackgroundColor = backgroundColor;
+            return this;
+        }
+
+        public View getView() {
+            return mView;
+        }
+
+        public Builder setView(View view) {
+            mView = view;
             return this;
         }
 
@@ -120,7 +105,7 @@ public class Toaster {
             return mGravity;
         }
 
-        public Config setGravity(int gravity) {
+        public Builder setGravity(int gravity) {
             mGravity = gravity;
             return this;
         }
@@ -129,27 +114,61 @@ public class Toaster {
             return mDuration;
         }
 
-        public Config setDuration(int duration) {
+        public Builder setDuration(int duration) {
             mDuration = duration;
             return this;
         }
 
-        public Typeface getTypeFace() {
-            return mTypeFace;
+        public int getX() {
+            return mX;
         }
 
-        public Config setTypeFace(Typeface typeFace) {
-            mTypeFace = typeFace;
+        public Builder setX(int x) {
+            mX = x;
             return this;
         }
 
-        public CharSequence getText() {
-            return mText;
+        public int getY() {
+            return mY;
         }
 
-        public Config setText(CharSequence text) {
-            mText = text;
+        public Builder setY(int y) {
+            mY = y;
             return this;
+        }
+
+        public ToastImpl build() {
+            ToastImpl toast;
+            if (SystemUtils.isNotificationEnabled(sApplication)) {
+                toast = new OriginToast(sApplication);
+            } else {
+                toast = new OverLayToast(sApplication);
+            }
+
+            View view = getView();
+            if (view == null) {
+                TextView tv = (TextView) ToastImpl.createView(sApplication, getText(), null);
+                Drawable drawable = tv.getBackground();
+                drawable.setColorFilter(getBackgroundColor(), PorterDuff.Mode.SRC_IN);
+                tv.setText(getText());
+                tv.setTextColor(getTextColor());
+                tv.setTextSize(getTextSize());
+                tv.setTypeface(getTypeFace());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    tv.setBackground(drawable);
+                } else {
+                    tv.setBackgroundDrawable(drawable);
+                }
+            }
+
+            toast.setView(view);
+            toast.setDuration(getDuration());
+            toast.setGravity(getGravity(), mX, mY);
+            return toast;
+        }
+
+        public void show() {
+            build().show();
         }
     }
 

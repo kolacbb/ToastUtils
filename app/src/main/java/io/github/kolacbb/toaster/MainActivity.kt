@@ -1,8 +1,8 @@
 package io.github.kolacbb.toaster
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -10,6 +10,7 @@ import android.widget.Toast
 import io.github.kolacbb.library.OriginToast
 import io.github.kolacbb.library.OverLayToast
 import io.github.kolacbb.library.SnackToast
+import io.github.kolacbb.library.Toaster
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,16 +27,16 @@ class MainActivity : AppCompatActivity() {
 
             /*middle*/
             R.id.toast_origin -> {
-                ToastUtils.showBanner("Short Toast")
+                Toaster.show("short")
             }
             R.id.toast_short -> {
-                ToastUtils.show("Short Toast")
+                Toaster.show("Short Toast")
             }
             R.id.toast_long -> {
-                ToastUtils.showMiddle("This is a long toast, that is why it will be show long time.")
+                Toaster.show("This is a long toast, that is why it will be show long time.")
             }
             R.id.toast_thread -> {
-                Thread(Runnable { run { ToastUtils.showMiddle("Thread.") } }).start()
+                Thread(Runnable { run { Toaster.showMiddle("This is a long thread toast, that is why it will be show long time.") } }).start()
             }
 
             /*middle*/
